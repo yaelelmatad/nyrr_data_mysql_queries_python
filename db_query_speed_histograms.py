@@ -27,6 +27,8 @@ def main():
     size_of_data = cursor.fetchall()
     max_id = size_of_data[0][1]
 
+    print "length ", len(sys.argv)
+
     yearMin = int(sys.argv[1])
     yearMax = int(sys.argv[2])
     raceDistMin = float(sys.argv[3])-0.005
