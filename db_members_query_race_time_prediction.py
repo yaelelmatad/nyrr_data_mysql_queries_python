@@ -83,12 +83,11 @@ def main():
     #fle = open(fileName, 'wr')        
     #fle.close()
 
-    for memNum in range(1000,4000):
+    for memNum in range(100,200):
         cursor.execute("SELECT pacePerMile, memberNumber, date, id FROM nyrrMemberData WHERE memberNumber = " + str(memNum) 
                 + " and distMiles >= "  + str(lowRaceDistCurr_miles) + " and distMiles <= " + str(highRaceDistCurr_miles) 
                 + " and pacePerMile >= " + str(lowRacePaceCurr_seconds)+ " and pacePerMile <= " + str(highRacePaceCurr_seconds) 
                 )
-        #        cursor.execute("SELECT pacePerMile FROM nyrrMemberData WHERE dateOfEvent >= '" + str(yearMin) + "0101000000' and dateOfEvent <= '" + str(yearMax) + "1231000000' and distMiles > " + str(raceDistMin) + " and distMiles < " + str(raceDistMax) + " and sex = '"+str(sexSelect)+"' and raceName not like '%walk%'")
         
         #now make sure those times are the lowest times in the area
         
