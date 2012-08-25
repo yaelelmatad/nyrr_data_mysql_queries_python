@@ -83,7 +83,7 @@ def main():
     #fle = open(fileName, 'wr')        
     #fle.close()
 
-    for memNum in range(100,200):
+    for memNum in range(0,1000):
         cursor.execute("SELECT pacePerMile, memberNumber, date, id FROM nyrrMemberData WHERE memberNumber = " + str(memNum) 
                 + " and distMiles >= "  + str(lowRaceDistCurr_miles) + " and distMiles <= " + str(highRaceDistCurr_miles) 
                 + " and pacePerMile >= " + str(lowRacePaceCurr_seconds)+ " and pacePerMile <= " + str(highRacePaceCurr_seconds) 
