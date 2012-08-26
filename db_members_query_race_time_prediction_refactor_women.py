@@ -196,7 +196,7 @@ def main():
             pfle = open(progFile, 'a')
             pfle.write("At member " + str(memNum) + "\n")
             pfle.close()
-        cursor.execute("SELECT pacePerMile, distMiles, memberNumber, date FROM nyrrMemberData WHERE memberNumber = " + str(memNum))
+        cursor.execute("SELECT pacePerMile, distMiles, memberNumber, date FROM nyrrMemberData WHERE sex = 'f' and memberNumber = " + str(memNum))
         
 
         data=cursor.fetchall()
