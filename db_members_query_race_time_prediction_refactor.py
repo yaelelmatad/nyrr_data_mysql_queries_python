@@ -135,7 +135,7 @@ def main():
     #    print "python script_name yearMin yearMax raceDistMin raceDistMax Gender(m or f)"
     #    return
 
-    raceDistList = [1,0,3.1,4.0,5.0,6.2,9.3,13.1,26.2]
+    raceDistList = [1.0,3.1,4.0,5.0,6.2,9.3,13.1,26.2]
     racePaceStart_sec = 4*60 
     racePaceEnd_sec = 14*60
     racePaceInc = 5
