@@ -2,6 +2,7 @@ import sys, os, re
 import collections 
 
 class Data(object):
+    '''Data class, members include a dictionary (of dicts), a first label (birthyear or raceyear) a second label (same) as well as max and min for each of those years'''
     def __init__(self,allData, firstLabel,secondLabel):
         self.allData = allData
         self.firstKeyLabel = firstLabel
@@ -22,22 +23,24 @@ def loadFile(filename):
     for line in f:
         (year, men, women) = [int(float(x)) for x in line.split()]
         dataSlice[year] = {'M': men, 'W': women} 
-    print dataSlice
+    #print dataSlice
     return dataSlice
 
 
 def loadAllFiles(files):
+    '''loads all the files in the file list, extracts the year from the file name, and calls loadFile on single files'''
     allData = {}
     for f in files:
         year = int([year for year in re.findall(r'\d+', '%s' %(f)) if year != '0'][0])
         allData[year] = loadFile(f)
 
-    print allData
+    #print allData
     return allData
     #print allData
 
 
 def smoothed(allTheData, firstYearIncrement, secondYearIncrement):
+    '''Given a data type, an incrememtn for the first type of year, and one of the second re "bins" the data so can be printed out as desired'''
     firstMin = allTheData.minFirstKey    
     firstMax = allTheData.maxFirstKey
     
@@ -70,26 +73,32 @@ def smoothed(allTheData, firstYearIncrement, secondYearIncrement):
     
 
 def printData(allTheData,smoothedData):
+    '''after rebinning, prints data, must pass it original data class as well as smoothed data'''
     if allTheData.firstKeyLabel == 'birthyear':
         dirName = 'reBinnedByBirthYear'
         fileNamePrefix = "for_birthyears_"
     if allTheData.firstKeyLabel == 'raceyear':
-        dirName = 'reBinnedByRaceYear'
+        dirName = 'reBinnedByRaceYear' 
         fileNamePrefix = "for_raceyears_"
     
     #makes a directory if it doesn't fine that directory already
     if not os.path.isdir('./'+dirName):
         os.makedirs('./'+dirName)
 
-    i = 1 #TEMP NONSENSE TO REMOVE LATER:
     #here is where you write out all the smoothedData stuff.
     for left1Key, right1Key in smoothedData:
-        #HERE IS WHERE YOU CREATE FILENAME
-        #DONT FORGET TO GIVE IT A USEFUL HEADING
-        i=i #TEMPNONSENSE FIX THIS
-        for left2Key, right2Key in smoothedData[left1Key, right1Key]:
-            #HERE IS WHERE YOU WRITE TO FILE NAME
-            i = i#TEMPNONSENES FIX THIS
+        filename = dirName + '/' + fileNamePrefix + str(left1Key) +'_to_' +str(right1Key)+'.dat'
+        print filename
+        f = open(filename,'w')
+        f.write("#Data for birth years in range" + str(left1Key) + " to " + str(right1Key) + "\n")
+        f.write("#Data for race years in range [Year1, Year2) for M and then W \n")
+        f.write("#Year1  Year2  MenRacers  WomenRacers \n")
+        f.close
+
+        sortedKeys = sorted(smoothedData[left1Key, right1Key].keys())
+        for left2Key, right2Key in sortedKeys:
+            f.write(str(left2Key) + " " + str(right2Key) + " " + str(smoothedData[left1Key, right1Key][left2Key, right2Key]['M']) + " " + str(smoothedData[left1Key, right1Key][left2Key, right2Key]['W']) + "\n")
+        f.close
 
 
 
@@ -124,7 +133,7 @@ def main():
     
     allTheData = Data(loadAllFiles(files),firstKey, secondKey)
     
-    smoothedData = smoothed(allTheData, 5, 5)
+    smoothedData = smoothed(allTheData, 3, 3)
     
     printData(allTheData, smoothedData)
 
